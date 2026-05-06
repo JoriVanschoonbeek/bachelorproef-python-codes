@@ -20,12 +20,9 @@ def find_wave_position(u_array, x_array):
 
 def Golfsnelheid_benaderen(D,r,L,N,T,t):
     dx = L/(N-1)        #de lengte van een discretisatiestap
-    dt = T/t      #t is het aantal tijdstappen
+    dt = T/t            #t is het aantal tijdstappen
     x = np.linspace(0,L,N)
-    #u = 0.5 * (1 - np.tanh(50 * (x - L/2)))
-    # u = np.exp(-10*((x-5)**2))
     u = 1/(1+np.exp(x-5))
-    # u = 1.05*np.ones(N)
 
     term = (dt * D) / dx**2
     
