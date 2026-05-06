@@ -5,16 +5,14 @@ def Fisher_kpp_2D(D, r, L, N, T, t):
     h = L / (N - 1)        
     dt = T / t
 
-    # 1. Stability Check
-    cfl = D * dt / (h**2)
-    if cfl > 0.25:
-        print(f"Warning: Explicit method may be unstable. D*dt/h^2 = {cfl:.3f} (Should be <= 0.25)")
+    # moet groter zijn dan 0.25
+    stabiliteitsvoorwaarde = D * dt / (h**2)
 
-    # 2. Grid Setup
+    #opstellen van het grid
     x = np.linspace(0, L, N)
     X, Y = np.meshgrid(x, x, indexing="ij")
     
-    # Initial condition
+    # beginvoorwaarde
     u = -np.exp((-((X - L/2)**2 + (Y - L/2)**2))/10) +1
 
     # Turn on interactive mode for smooth live plotting
@@ -23,19 +21,17 @@ def Fisher_kpp_2D(D, r, L, N, T, t):
 
     # 3. Vectorized Time Loop
     for z in range(t):
-        # Pad the array to elegantly handle zero-flux (Neumann) boundary conditions.
-        # 'reflect' mirrors the edge values, acting exactly like ghost points.
+        #toevoegen van kopie 2de waarde voor de randvoorwaarde, en voorlaatste waarde na de 2e randvoorwaarde
         u_pad = np.pad(u, pad_width=1, mode='reflect')
         
-        # Calculate the 2D Laplacian using array slicing (Central Difference)
+        #berekenen laplaciaan
         laplacian = (u_pad[:-2, 1:-1] + u_pad[2:, 1:-1] + 
                      u_pad[1:-1, :-2] + u_pad[1:-1, 2:] - 
                      4 * u) / h**2
         
-        # Fisher-KPP update step
+        # Fisher-KPP update stap
         u = u + dt * (D * laplacian + r * u * (1 - u))
         
-        # Plotting (Update every few steps to avoid plotting bottleneck)
         if z % max(1, t // 50) == 0 or z == t - 1:
             plt.clf()
             fixed_levels = np.linspace(0, 1, 21)
