@@ -62,7 +62,7 @@ def Fisher_KPP_vergelijking_expliciet(D, r, L, N, T, t):
                 plt.savefig("expliciet_voldaan_svw_t=3000.png")
 
 #voldoet aan stabiliteitsvoorwaarde
-print(Fisher_KPP_vergelijking_expliciet(1,1,20,200,32,7000))
+#print(Fisher_KPP_vergelijking_expliciet(1,1,20,200,32,7000))
 
 #voldoet niet aan stabilitetisvoorwaarde
 #print(Fisher_KPP_vergelijking_expliciet(D=1,r=1,L=20,N=100,T=10, t=50 )) # ⇒ dt = 0.2 (veel te groot!)
