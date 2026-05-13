@@ -5,7 +5,7 @@ def Fisher_KPP_vergelijking_impliciet(D,r,L,N,T,t):
     dx = L/(N-1)        #de lengte van een discretisatiestap
     dt = T/t            #t is het aantal tijdstappen
     x = np.linspace(0,L,N)
-    u = 1/(1+np.exp(x-5))
+    u = 1/(1+np.exp(x-10))
 
     term = (dt * D) / dx**2
 
